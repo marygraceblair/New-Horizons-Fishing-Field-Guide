@@ -6,9 +6,9 @@ export default {
     screens: {
       Root: {
         screens: {
-          TabOne: {
+          PriceGuide: {
             screens: {
-              TabOneScreen: 'one',
+              PriceGuideScreen: 'PriceGuide',
             },
           },
           TabTwo: {

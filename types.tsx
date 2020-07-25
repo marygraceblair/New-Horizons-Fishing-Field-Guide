@@ -12,6 +12,10 @@ export type TabOneParamList = {
   TabOneScreen: undefined;
 };
 
+export type PriceGuideParamList = {
+  PriceGuideScreen: undefined;
+};
+
 export type TabTwoParamList = {
   TabTwoScreen: undefined;
 };

@@ -1,0 +1,34 @@
+import * as React from 'react';
+import { StyleSheet } from 'react-native';
+import { TextInput } from 'react-native';
+
+import PriceGuideScreenInfo from '../components/PriceGuideScreenInfo';
+import { Text, View } from '../components/Themed';
+
+const [value, onChangeText] = React.useState('Useless Placeholder');
+export default function PriceGuideScreen() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Price Guide</Text>
+      <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
+
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  separator: {
+    marginVertical: 30,
+    height: 1,
+    width: '80%',
+  },
+});
