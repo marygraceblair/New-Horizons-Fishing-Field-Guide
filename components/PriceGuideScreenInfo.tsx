@@ -6,11 +6,20 @@ import Colors from '../constants/Colors';
 import { MonoText } from './StyledText';
 import { Text, View } from './Themed';
 
+import { TextInput } from 'react-native';
+
+
 export default function PriceGuideScreenInfo({ path }: { path: string }) {
+  const [value, onChangeText] = React.useState('Critter Name:');
   return (
     <View>
       <View style={styles.getStartedContainer}>
       </View>
+    <TextInput
+      style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+      onChangeText={text => onChangeText(text)}
+      value={value}
+    />
     </View>
   );
 }

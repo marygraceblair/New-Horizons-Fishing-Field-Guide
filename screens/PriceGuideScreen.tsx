@@ -5,13 +5,12 @@ import { TextInput } from 'react-native';
 import PriceGuideScreenInfo from '../components/PriceGuideScreenInfo';
 import { Text, View } from '../components/Themed';
 
-const [value, onChangeText] = React.useState('Useless Placeholder');
 export default function PriceGuideScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Price Guide</Text>
       <View style={styles.separator} lightColor="#eee" darkColor="rgba(255,255,255,0.1)" />
-
+    <PriceGuideScreenInfo path="/screens/TabOneScreen.tsx" />
     </View>
   );
 }
