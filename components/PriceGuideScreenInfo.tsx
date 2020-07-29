@@ -7,9 +7,10 @@ import { MonoText } from './StyledText';
 import { Text, View } from './Themed';
 
 import { TextInput } from 'react-native';
-import { Input, CheckBox, Button } from 'react-native-elements';
+import { Input, CheckBox, Button, FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
 export default function PriceGuideScreenInfo({ path }: { path: string }) {
     const [value, onChangeText] = React.useState('Critter Name:');
+    const [checked, setChecked]= React.useState(false);
     return (
         <View>
             <View style={styles.getStartedContainer}>
@@ -24,11 +25,15 @@ export default function PriceGuideScreenInfo({ path }: { path: string }) {
                 title='Bug'
                 checkedIcon='dot-circle-o'
                 uncheckedIcon='circle-o'
+                checked={checked}
+                onPress={() => setChecked(!checked)}
             />
             <CheckBox
                 title='Fish'
                 checkedIcon='dot-circle-o'
                 uncheckedIcon='circle-o'
+                checked={checked}
+                onPress={() => setChecked(!checked)}
             />
             <Button
                 title='Find Price'
