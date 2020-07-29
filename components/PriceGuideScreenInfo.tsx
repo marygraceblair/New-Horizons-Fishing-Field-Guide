@@ -6,39 +6,31 @@ import Colors from '../constants/Colors';
 import { MonoText } from './StyledText';
 import { Text, View } from './Themed';
 
-import { TextInput } from 'react-native';
-import { Input, CheckBox, Button, FormLabel, FormInput, FormValidationMessage } from 'react-native-elements';
+import { RadioButton, TextInput, Button} from 'react-native-paper';
 export default function PriceGuideScreenInfo({ path }: { path: string }) {
-    const [value, onChangeText] = React.useState('Critter Name:');
-    const [checked, setChecked]= React.useState(false);
+    const [ text, setText ] = React.useState('');
+    const [value, setValue] = React.useState('bug');
     return (
         <View>
             <View style={styles.getStartedContainer}>
             </View>
-            <Input
+            <TextInput
                 label='Name'
-                placeholder='Critter Name'
-                errorStyle={{ color: 'red' }}
-                errorMessage='ENTER A VALID NAME'
+                value={text}
+                mode='outlined'
+                onChangeText={text => setText(text)}
             />
-            <CheckBox
-                title='Bug'
-                checkedIcon='dot-circle-o'
-                uncheckedIcon='circle-o'
-                checked={checked}
-                onPress={() => setChecked(!checked)}
-            />
-            <CheckBox
-                title='Fish'
-                checkedIcon='dot-circle-o'
-                uncheckedIcon='circle-o'
-                checked={checked}
-                onPress={() => setChecked(!checked)}
-            />
-            <Button
-                title='Find Price'
-                type='outline'
-            />
+            <RadioButton.Group onValueChange={value => setValue(value)} value={value}>
+                <View>
+                    <Text>Bug</Text>
+                    <RadioButton value="bug" />
+                    <Text>Fish</Text>
+                    <RadioButton value="fish" />
+                </View>
+            </RadioButton.Group>
+            <Button mode="contained" onPress={() => console.log('Pressed')}>
+                Find Price
+            </Button>
         </View>
     );
 }
