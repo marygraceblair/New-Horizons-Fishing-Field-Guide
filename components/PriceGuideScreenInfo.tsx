@@ -45,11 +45,19 @@ function handleHelpPress() {
 function handleSubmitPress() {
     var apiUrl = 'http://acnhapi.com/v1/'
     var critterType = 'fish' //change later
-    var critterName = 'bitterling' //change
+    var critterName = 'butterling' //change
 
     //react-native cannot use ajax because react-native uses it's own DOM
     return fetch(apiUrl + critterType + '/' + critterName)
-    .then((response) => console.log(response.json()));
+    .then((response) =>  {
+        if (response.ok) {
+            console.log(response.json());
+            return response.json();
+        } else {
+            throw new Error('Critter Not Found');
+        }
+    })
+    .catch((error) => console.log(error));
 }
 
 const styles = StyleSheet.create({
