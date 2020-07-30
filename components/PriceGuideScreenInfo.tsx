@@ -28,7 +28,7 @@ export default function PriceGuideScreenInfo({ path }: { path: string }) {
                     <RadioButton value="fish" />
                 </View>
             </RadioButton.Group>
-            <Button mode="contained" onPress={() => console.log('Pressed')}>
+            <Button mode="contained" onPress={handleSubmitPress}>
                 Find Price
             </Button>
         </View>
@@ -40,6 +40,17 @@ function handleHelpPress() {
         'https://docs.expo.io/get-started/create-a-new-app/#opening-the-app-on-your-phonetablet'
       );
     }
+
+    //using the airbnb style guide for javascript
+function handleSubmitPress() {
+    var apiUrl = 'http://acnhapi.com/v1/'
+    var critterType = 'fish' //change later
+    var critterName = 'bitterling' //change
+
+    //react-native cannot use ajax because react-native uses it's own DOM
+    return fetch('https://reactnative.dev/movies.json')
+    .then((response) => console.log(response.json()));
+}
 
 const styles = StyleSheet.create({
     container: {
