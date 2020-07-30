@@ -48,7 +48,7 @@ function handleSubmitPress() {
     var critterName = 'bitterling' //change
 
     //react-native cannot use ajax because react-native uses it's own DOM
-    return fetch('https://reactnative.dev/movies.json')
+    return fetch(apiUrl + critterType + '/' + critterName)
     .then((response) => console.log(response.json()));
 }
 
