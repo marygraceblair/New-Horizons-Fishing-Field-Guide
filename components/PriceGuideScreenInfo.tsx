@@ -5,32 +5,44 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import Colors from '../constants/Colors';
 import { MonoText } from './StyledText';
 import { Text, View } from './Themed';
+const price = 0;
 
 import { RadioButton, TextInput, Button} from 'react-native-paper';
 export default function PriceGuideScreenInfo({ path }: { path: string }) {
     const [ text, setText] = React.useState('');
     const [value, setValue] = React.useState('bug');
+    
     return (
-        <View>
+        <View style={{flexDirection: 'column'}}>
             <View style={styles.getStartedContainer}>
-            </View>
-            <TextInput
-                label='Name'
-                value={text}
-                mode='outlined'
-                onChangeText={text => setText(text)}
-            />
-            <RadioButton.Group onValueChange={value => setValue(value)} value={value}>
-                <View>
-                    <Text>Bug</Text>
-                    <RadioButton value="bug" />
-                    <Text>Fish</Text>
-                    <RadioButton value="fish" />
+                <img src='https://vignette.wikia.nocookie.net/animalcrossing/images/4/44/NH-Icon-Nook_Phone-Critterpedia.png/revision/latest/scale-to-width-down/340?cb=20200430155808'></img>
+            
+                <View style={styles.priceFormContainer}>
+                    <TextInput
+                        label='Name'
+                        value={text}
+                        mode='outlined'
+                        onChangeText={text => setText(text)}
+                    />
+                    <RadioButton.Group onValueChange={value => setValue(value)} value={value}>
+                        <View>
+                            <Text>Bug</Text>
+                            <RadioButton value="bug" />
+                            <Text>Fish</Text>
+                            <RadioButton value="fish" />
+                        </View>
+                    </RadioButton.Group>
+
+                    <Button mode="contained" disabled= {text==''} onPress={ () => handleSubmitPress(value, text)}>
+                        Find Price
+                    </Button>
                 </View>
-            </RadioButton.Group>
-            <Button mode="contained" disabled= {text==''} onPress={ () => handleSubmitPress(value, text)}>
-                Find Price
-            </Button>
+            </View>
+
+            <View style={{ flex:1, justifyContent: "center", alignItems: "center"}}>
+                <h4>{price} Bells</h4>
+            </View>
+            
         </View>
     );
 }
@@ -49,13 +61,18 @@ function handleSubmitPress(critterType, critterName) {
     //react-native cannot use ajax because react-native uses it's own DOM
     return fetch(apiUrl + critterType + '/' + critterName)
     .then((response) =>  {
-        if (response.ok) {
-            var responseInfo = response.json(); 
-            console.log(responseInfo);
-            return responseInfo;
-        } else {
+        if (!response.ok)
+        {
             throw new Error('Critter Not Found');
         }
+        return response.json() 
+    })
+    .then((json) => {
+        var responseInfo = json; 
+        console.log(responseInfo);
+        var price = responseInfo.price;
+        console.log({price});
+        return responseInfo;
     })
     .catch((error) => console.log(error));
 }
@@ -89,6 +106,13 @@ const styles = StyleSheet.create({
     getStartedContainer: {
         alignItems: 'center',
         marginHorizontal: 50,
+        flex: 1, 
+        flexDirection: 'row'
+    },
+    priceFormContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        marginLeft: 70,
     },
     homeScreenFilename: {
         marginVertical: 7,
