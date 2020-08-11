@@ -8,7 +8,7 @@ import { Text, View } from './Themed';
 
 import { RadioButton, TextInput, Button} from 'react-native-paper';
 export default function PriceGuideScreenInfo({ path }: { path: string }) {
-    const [ text, setText ] = React.useState('');
+    const [ text, setText] = React.useState('');
     const [value, setValue] = React.useState('bug');
     return (
         <View>
@@ -28,7 +28,7 @@ export default function PriceGuideScreenInfo({ path }: { path: string }) {
                     <RadioButton value="fish" />
                 </View>
             </RadioButton.Group>
-            <Button mode="contained" onPress={handleSubmitPress}>
+            <Button mode="contained" disabled= {text==''} onPress={ () => handleSubmitPress(value, text)}>
                 Find Price
             </Button>
         </View>
@@ -42,17 +42,17 @@ function handleHelpPress() {
     }
 
     //using the airbnb style guide for javascript
-function handleSubmitPress() {
-    var apiUrl = 'http://acnhapi.com/v1/'
-    var critterType = 'fish' //change later
-    var critterName = 'butterling' //change
+function handleSubmitPress(critterType, critterName) {
+    
+    var apiUrl = 'http://acnhapi.com/v1/';
 
     //react-native cannot use ajax because react-native uses it's own DOM
     return fetch(apiUrl + critterType + '/' + critterName)
     .then((response) =>  {
         if (response.ok) {
-            console.log(response.json());
-            return response.json();
+            var responseInfo = response.json(); 
+            console.log(responseInfo);
+            return responseInfo;
         } else {
             throw new Error('Critter Not Found');
         }
