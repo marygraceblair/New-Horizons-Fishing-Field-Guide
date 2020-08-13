@@ -5,18 +5,36 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import Colors from '../constants/Colors';
 import { MonoText } from './StyledText';
 import { Text, View } from './Themed';
-const price = 0;
 
 import { RadioButton, TextInput, Button} from 'react-native-paper';
 export default function PriceGuideScreenInfo({ path }: { path: string }) {
     const [ text, setText] = React.useState('');
     const [value, setValue] = React.useState('bug');
-    
+    const [price, setPrice] = React.useState(0);
+    const apiUrl = 'http://acnhapi.com/v1/';
+    const handleSubmitPress = (critterType, critterName) => {
+        return fetch(apiUrl + critterType + '/' + critterName)
+            .then((response) =>  {
+                if (!response.ok)
+                {
+                    throw new Error('Critter Not Found');
+                }
+                return response.json(); 
+            })
+            .then((json) => {
+                var responseInfo = json; 
+                console.log(responseInfo);
+                console.log(responseInfo.price);
+                setPrice(responseInfo.price);
+            })
+            .catch((error) => console.log(error));
+    }; 
+
     return (
         <View style={{flexDirection: 'column'}}>
             <View style={styles.getStartedContainer}>
                 <img src='https://vignette.wikia.nocookie.net/animalcrossing/images/4/44/NH-Icon-Nook_Phone-Critterpedia.png/revision/latest/scale-to-width-down/340?cb=20200430155808'></img>
-            
+        
                 <View style={styles.priceFormContainer}>
                     <TextInput
                         label='Name'
@@ -33,16 +51,14 @@ export default function PriceGuideScreenInfo({ path }: { path: string }) {
                         </View>
                     </RadioButton.Group>
 
-                    <Button mode="contained" disabled= {text==''} onPress={ () => handleSubmitPress(value, text)}>
+                    <Button type="submit" mode="contained" disabled= {text==''} onPress={ () => handleSubmitPress(value, text)}>
                         Find Price
                     </Button>
                 </View>
             </View>
-
             <View style={{ flex:1, justifyContent: "center", alignItems: "center"}}>
                 <h4>{price} Bells</h4>
             </View>
-            
         </View>
     );
 }
@@ -52,30 +68,6 @@ function handleHelpPress() {
         'https://docs.expo.io/get-started/create-a-new-app/#opening-the-app-on-your-phonetablet'
       );
     }
-
-    //using the airbnb style guide for javascript
-function handleSubmitPress(critterType, critterName) {
-    
-    var apiUrl = 'http://acnhapi.com/v1/';
-
-    //react-native cannot use ajax because react-native uses it's own DOM
-    return fetch(apiUrl + critterType + '/' + critterName)
-    .then((response) =>  {
-        if (!response.ok)
-        {
-            throw new Error('Critter Not Found');
-        }
-        return response.json() 
-    })
-    .then((json) => {
-        var responseInfo = json; 
-        console.log(responseInfo);
-        var price = responseInfo.price;
-        console.log({price});
-        return responseInfo;
-    })
-    .catch((error) => console.log(error));
-}
 
 const styles = StyleSheet.create({
     container: {
