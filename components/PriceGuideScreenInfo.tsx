@@ -10,13 +10,16 @@ import { RadioButton, TextInput, Button} from 'react-native-paper';
 export default function PriceGuideScreenInfo({ path }: { path: string }) {
     const [ text, setText] = React.useState('');
     const [value, setValue] = React.useState('bug');
-    const [price, setPrice] = React.useState(0);
+    const [ submitted, setSubmitted ] = React.useState(false);
+    const [statement, setStatement] = React.useState('Not Found, please try again.');
     const apiUrl = 'http://acnhapi.com/v1/';
     const handleSubmitPress = (critterType, critterName) => {
         return fetch(apiUrl + critterType + '/' + critterName)
             .then((response) =>  {
                 if (!response.ok)
                 {
+                    setSubmitted(true);
+                    setStatement('Not Found, please try again.');
                     throw new Error('Critter Not Found');
                 }
                 return response.json(); 
@@ -25,7 +28,8 @@ export default function PriceGuideScreenInfo({ path }: { path: string }) {
                 var responseInfo = json; 
                 console.log(responseInfo);
                 console.log(responseInfo.price);
-                setPrice(responseInfo.price);
+                setStatement(responseInfo.price + ' Bells');
+                setSubmitted(true);
             })
             .catch((error) => console.log(error));
     }; 
@@ -40,9 +44,18 @@ export default function PriceGuideScreenInfo({ path }: { path: string }) {
                         label='Name'
                         value={text}
                         mode='outlined'
-                        onChangeText={text => setText(text)}
+                        onChangeText= { (changedText) => {
+                            setText(changedText); 
+                            setSubmitted(false);
+                            }    
+                        }
+                            
                     />
-                    <RadioButton.Group onValueChange={value => setValue(value)} value={value}>
+                    <RadioButton.Group onValueChange={(changedValue) => {
+                        setValue(changedValue);
+                        setSubmitted(false);
+                        }
+                    } value={value}>
                         <View>
                             <Text>Bug</Text>
                             <RadioButton value="bug" />
@@ -51,13 +64,13 @@ export default function PriceGuideScreenInfo({ path }: { path: string }) {
                         </View>
                     </RadioButton.Group>
 
-                    <Button type="submit" mode="contained" disabled= {text==''} onPress={ () => handleSubmitPress(value, text)}>
+                    <Button type="submit" mode="contained" disabled= {text==''} onPress={ () => handleSubmitPress(value, text) }>
                         Find Price
                     </Button>
                 </View>
             </View>
-            <View style={{ flex:1, justifyContent: "center", alignItems: "center"}}>
-                <h4>{price} Bells</h4>
+            <View style={{ flex:1, justifyContent: "center", alignItems: "center", visibility: submitted ? 'visible' : 'hidden' }}>
+                <h4>{statement}</h4>
             </View>
         </View>
     );
