@@ -70,7 +70,7 @@ export default function PriceGuideScreenInfo({ path }: { path: string }) {
                         </View>
                     </RadioButton.Group>
 
-                    <Button type="submit" mode="contained" disabled= {text==''} onPress={ () => handleSubmitPress(value, text) }>
+                    <Button type="submit" mode="contained" disabled= {text==''} onPress={ () => handleSubmitPress(value, formatName(text)) }>
                         Find Price
                     </Button>
                 </View>
@@ -80,6 +80,11 @@ export default function PriceGuideScreenInfo({ path }: { path: string }) {
             </View>
         </View>
     );
+}
+
+function formatName(name)
+{
+    return name.toLowerCase().replace(/ /g,"_"); 
 }
 
 function handleHelpPress() {
