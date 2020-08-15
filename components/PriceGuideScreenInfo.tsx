@@ -10,8 +10,10 @@ import { RadioButton, TextInput, Button} from 'react-native-paper';
 export default function PriceGuideScreenInfo({ path }: { path: string }) {
     const [ text, setText] = React.useState('');
     const [value, setValue] = React.useState('bug');
-    const [ submitted, setSubmitted ] = React.useState(false);
+    const [submitted, setSubmitted ] = React.useState(false);
     const [statement, setStatement] = React.useState('Not Found, please try again.');
+    const defaultUrl = 'https://vignette.wikia.nocookie.net/animalcrossing/images/4/44/NH-Icon-Nook_Phone-Critterpedia.png/revision/latest/scale-to-width-down/340?cb=20200430155808';
+    //const [imageURL, setImageURL] = React.useState(defaultUrl);
     const apiUrl = 'http://acnhapi.com/v1/';
     const handleSubmitPress = (critterType, critterName) => {
         return fetch(apiUrl + critterType + '/' + critterName)
@@ -20,6 +22,7 @@ export default function PriceGuideScreenInfo({ path }: { path: string }) {
                 {
                     setSubmitted(true);
                     setStatement('Not Found, please try again.');
+                    //setImageURL(defaultUrl); 
                     throw new Error('Critter Not Found');
                 }
                 return response.json(); 
@@ -28,6 +31,7 @@ export default function PriceGuideScreenInfo({ path }: { path: string }) {
                 var responseInfo = json; 
                 console.log(responseInfo);
                 console.log(responseInfo.price);
+                //setImageURL(responseInfo.image_uri);
                 setStatement(responseInfo.price + ' Bells');
                 setSubmitted(true);
             })
@@ -37,7 +41,7 @@ export default function PriceGuideScreenInfo({ path }: { path: string }) {
     return (
         <View style={{flexDirection: 'column'}}>
             <View style={styles.getStartedContainer}>
-                <img src='https://vignette.wikia.nocookie.net/animalcrossing/images/4/44/NH-Icon-Nook_Phone-Critterpedia.png/revision/latest/scale-to-width-down/340?cb=20200430155808'></img>
+                <img src={defaultUrl}></img>
         
                 <View style={styles.priceFormContainer}>
                     <TextInput
@@ -47,6 +51,7 @@ export default function PriceGuideScreenInfo({ path }: { path: string }) {
                         onChangeText= { (changedText) => {
                             setText(changedText); 
                             setSubmitted(false);
+                            //setImageURL(defaultUrl);
                             }    
                         }
                             
@@ -54,6 +59,7 @@ export default function PriceGuideScreenInfo({ path }: { path: string }) {
                     <RadioButton.Group onValueChange={(changedValue) => {
                         setValue(changedValue);
                         setSubmitted(false);
+                        //setImageURL(defaultUrl);
                         }
                     } value={value}>
                         <View>
